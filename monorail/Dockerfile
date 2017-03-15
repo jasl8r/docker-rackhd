@@ -15,4 +15,4 @@ COPY config.json.tmpl index.html /monorail/
 CMD ["dockerize", \
      "-template", "/monorail/config.json.tmpl:/opt/monorail/config.json", \
      "-template", "/monorail/index.html:/opt/monorail/static/http/index.html", \
-     "echo", "rendered templates"]
+     "sh", "-c", "while sleep 3600; do :; done"]

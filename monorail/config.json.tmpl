@@ -1,0 +1,61 @@
+{
+    "amqp": "amqp://{{ default .Env.AMQP_HOST .Env.RACKHD_HOST }}",
+    "apiServerAddress": "{{ default .Env.API_HOST .Env.RACKHD_HOST }}",
+    "apiServerPort": {{ default .Env.API_PORT "9080" }},
+    "authPasswordHash": "KcBN9YobNV0wdux8h0fKNqi4uoKCgGl/j8c6YGlG7iA0PB3P9ojbmANGhDlcSBE0iOTIsYsGbtSsbqP4wvsVcw==",
+    "authPasswordSalt": "zlxkgxjvcFwm0M8sWaGojh25qNYO8tuNWUMN4xKPH93PidwkCAvaX2JItLA3p7BSCWIzkw4GwWuezoMvKf3UXg==",
+    "authTokenExpireIn": 86400,
+    "authTokenSecret": "RackHDRocks!",
+    "authUsername": "admin",
+    "dhcpLeasesPath": "/var/lib/dhcp/dhcpd.leases",
+    "dhcpGateway": "{{ default .Env.DHCP_GATEWAY .Env.RACKHD_HOST }}",
+    "dhcpProxyBindAddress": "{{ default .Env.DHCP_PROXY_ADDRESS .Env.RACKHD_HOST }}",
+    "dhcpProxyBindPort": 4011,
+    "dhcpSubnetMask": "{{ .Env.DHCP_SUBNET }}",
+    "httpDocsRoot": "./build/apidoc",
+    "httpEndpoints": [
+      {
+          "address": "0.0.0.0",
+          "port": 9090,
+          "httpsEnabled": false,
+          "proxiesEnabled": true,
+          "authEnabled": false,
+          "routers": "northbound-api-router"
+      },
+      {
+          "address": "0.0.0.0",
+          "port": 9080,
+          "httpsEnabled": false,
+          "proxiesEnabled": true,
+          "authEnabled": false,
+          "routers": "southbound-api-router"
+      }
+    ],
+    "httpFileServiceRoot": "./static/files",
+    "httpFileServiceType": "FileSystem",
+    "httpProxies": [
+      {
+        "localPath": "/coreos",
+        "server": "http://stable.release.core-os.net",
+        "remotePath": "/amd64-usr/"
+      },
+      {
+        "localPath": "/centos",
+        "server": "http://mirror.centos.org/",
+        "remotePath": "/centos/"
+      }
+    ],
+    "httpStaticRoot": "/opt/monorail/static/http",
+    "minLogLevel": 0,
+    "mongo": "mongodb://{{ default .Env.MONGO_HOST .Env.RACKHD_HOST }}/rackhd",
+    "sharedKey": "qxfO2D3tIJsZACu7UA6Fbw0avowo8r79ALzn+WeuC8M=",
+    "statsd": "127.0.0.1:8125",
+    "syslogBindAddress": "0.0.0.0",
+    "syslogBindPort": 514,
+    "tftpBindAddress": "0.0.0.0",
+    "tftpBindPort": 69,
+    "tftpRoot": "./static/tftp",
+    "wssSsl": false,
+    "wssBindAddress": "0.0.0.0",
+    "wssBindPort": 9100
+}

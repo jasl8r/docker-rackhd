@@ -1,0 +1,15 @@
+# Copyright 2016, EMC, Inc.
+
+default-lease-time 600;
+max-lease-time 7200;
+
+# authoritative;
+# log-facility local7;
+
+ignore-client-uids true;
+deny duplicates;
+
+subnet {{ .Env.DHCP_SUBNET }} netmask {{ .Env.DHCP_NETMASK }} {
+  range {{ .Env.DHCP_RANGE_LOW }} {{ .Env.DHCP_RANGE_HIGH }};
+  option vendor-class-identifier "PXEClient";
+}

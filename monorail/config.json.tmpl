@@ -52,7 +52,7 @@
     "statsd": "127.0.0.1:8125",
     "syslogBindAddress": "0.0.0.0",
     "syslogBindPort": 514,
-    "tftpBindAddress": "0.0.0.0",
+    "tftpBindAddress": "{{ default .Env.TFTP_HOST .Env.RACKHD_HOST }}",
     "tftpBindPort": 69,
     "tftpRoot": "./static/tftp",
     "wssSsl": false,

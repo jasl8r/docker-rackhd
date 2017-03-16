@@ -11,7 +11,7 @@
     "dhcpGateway": "{{ default .Env.DHCP_GATEWAY .Env.RACKHD_HOST }}",
     "dhcpProxyBindAddress": "{{ default .Env.DHCP_PROXY_ADDRESS .Env.RACKHD_HOST }}",
     "dhcpProxyBindPort": 4011,
-    "dhcpSubnetMask": "{{ default .Env.DHCP_ENV_DHCP_NETMASK .Env.DHCP_NETMASK }}",
+    "dhcpSubnetMask": "{{ default .Env.DHCP_NETMASK .Env.DHCP_ENV_DHCP_NETMASK }}",
     "httpDocsRoot": "./build/apidoc",
     "httpEndpoints": [
       {

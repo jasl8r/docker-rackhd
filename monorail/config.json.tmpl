@@ -47,7 +47,7 @@
     ],
     "httpStaticRoot": "/opt/monorail/static/http",
     "minLogLevel": 0,
-    "mongo": "mongodb://{{ default .Env.MONGO_USERNAME .Env.MONGO_ENV_MONGO_INITDB_ROOT_USERNAME }}:{{ default .Env.MONGO_PASSWORD .Env.MONGO_ENV_MONGO_INITDB_ROOT_PASSWORD }}@{{ default .Env.MONGO_HOST .Env.RACKHD_HOST }}/rackhd",
+    "mongo": "mongodb://{{ default .Env.MONGO_USERNAME .Env.MONGO_ENV_MONGO_INITDB_ROOT_USERNAME }}:{{ default .Env.MONGO_PASSWORD .Env.MONGO_ENV_MONGO_INITDB_ROOT_PASSWORD }}@{{ default .Env.MONGO_HOST .Env.RACKHD_HOST }}/{{ default .Env.MONGO_DATABASE "rackhd" }}",
     "sharedKey": "qxfO2D3tIJsZACu7UA6Fbw0avowo8r79ALzn+WeuC8M=",
     "statsd": "127.0.0.1:8125",
     "syslogBindAddress": "0.0.0.0",

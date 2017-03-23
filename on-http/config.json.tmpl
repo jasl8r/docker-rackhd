@@ -1,12 +1,9 @@
 {
-    "amqp": "amqp://{{ default .Env.AMQP_USERNAME .Env.RABBITMQ_ENV_RABBITMQ_DEFAULT_USER }}:{{ default .Env.AMQP_PASSWORD .Env.RABBITMQ_ENV_RABBITMQ_DEFAULT_PASS }}@{{ default .Env.AMQP_HOST .Env.RACKHD_HOST }}",
+    "amqp": "amqp://{{ .Env.AMQP_USERNAME }}:{{ .Env.AMQP_PASSWORD }}@{{ default .Env.AMQP_HOST .Env.RACKHD_HOST }}",
     "apiServerAddress": "{{ default .Env.API_HOST .Env.RACKHD_HOST }}",
     "apiServerPort": {{ default .Env.API_PORT "9080" }},
-    "authPasswordHash": "{{ .Env.RACKHD_PASSWORD_HASH }}",
-    "authPasswordSalt": "{{ .Env.RACKHD_PASSWORD_SALT }}",
     "authTokenExpireIn": 86400,
     "authTokenSecret": "{{ .Env.RACKHD_SECRET }}",
-    "authUsername": "{{ default .Env.RACKHD_USERNAME "admin" }}",
     "dhcpLeasesPath": "/var/lib/dhcp/dhcpd.leases",
     "dhcpGateway": "{{ default .Env.DHCP_GATEWAY .Env.RACKHD_HOST }}",
     "dhcpProxyBindAddress": "{{ default .Env.DHCP_PROXY_ADDRESS .Env.RACKHD_HOST }}",
@@ -33,18 +30,7 @@
     ],
     "httpFileServiceRoot": "./static/files",
     "httpFileServiceType": "FileSystem",
-    "httpProxies": [
-      {
-        "localPath": "/coreos",
-        "server": "http://stable.release.core-os.net",
-        "remotePath": "/amd64-usr/"
-      },
-      {
-        "localPath": "/centos",
-        "server": "http://mirror.centos.org/",
-        "remotePath": "/centos/"
-      }
-    ],
+    "httpProxies": {{ default .Env.RACKHD_PROXIES "[]" }},
     "httpStaticRoot": "/opt/monorail/static/http",
     "minLogLevel": 0,
     "mongo": "mongodb://{{ default .Env.MONGO_USERNAME .Env.MONGO_ENV_MONGO_INITDB_ROOT_USERNAME }}:{{ default .Env.MONGO_PASSWORD .Env.MONGO_ENV_MONGO_INITDB_ROOT_PASSWORD }}@{{ default .Env.MONGO_HOST .Env.RACKHD_HOST }}/{{ default .Env.MONGO_DATABASE "rackhd" }}",

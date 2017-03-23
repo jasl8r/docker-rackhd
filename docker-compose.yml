@@ -15,7 +15,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     volumes:
-      - data/mongo:/data/db
+      - ./data/mongo:/data/db
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -26,7 +26,7 @@ services:
       - 5672:5672
       - 15672:15672
     volumes:
-      - data/rabbitmq:/var/lib/rabbitmq
+      - ./data/rabbitmq:/var/lib/rabbitmq
 
   dhcp:
     image: jasl8r/isc-dhcp-server
@@ -42,15 +42,23 @@ services:
       - dhcp-leases:/var/lib/dhcp
 
   files:
-    image: rackhd/files
+    image: rackhd/files:2.0.0
     volumes:
-      - data/files:/RackHD/files
+      - ./data/files:/RackHD/files
 
-  monorail:
-    image: jasl8r/monorail
+  http:
+    image: jasl8r/on-http:2.0.0
+    depends_on:
+      - files
+      - mongo
+      - rabbitmq
+    ports:
+        - 9090:9090
+        - 9080:9080
     environment:
       - RACKHD_HOST=${RACKHD_HOST}
       - RACKHD_SECRET=${RACKHD_SECRET}
+      - RACKHD_PROXIES=${RACKHD_PROXIES}
       - MONGO_USERNAME=${MONGO_USERNAME}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - MONGO_DATABASE=${MONGO_DATABASE}
@@ -58,14 +66,15 @@ services:
       - AMQP_PASSWORD=${RABBIT_PASSWORD}
       - DHCP_NETMASK=${DHCP_NETMASK}
     volumes:
+      - ./data/files/common:/RackHD/on-http/static/http/common
       - config:/opt/monorail
 
   dhcp-proxy:
-    image: rackhd/on-dhcp-proxy
+    image: rackhd/on-dhcp-proxy:2.0.0
     depends_on:
       - dhcp
       - mongo
-      - monorail
+      - http
       - rabbitmq
     network_mode: "host"
     privileged: true
@@ -73,50 +82,36 @@ services:
       - dhcp-leases:/var/lib/dhcp
       - config:/opt/monorail:ro
 
-  http:
-    image: rackhd/on-http
-    depends_on:
-      - files
-      - mongo
-      - monorail
-      - rabbitmq
-    ports:
-        - 9090:9090
-        - 9080:9080
-    volumes:
-      - data/files/common:/RackHD/on-http/static/http/common
-      - config:/opt/monorail:ro
-
   syslog:
-    image: rackhd/on-syslog
+    image: rackhd/on-syslog:2.0.0
     depends_on:
       - mongo
-      - monorail
+      - http
       - rabbitmq
     volumes:
       - config:/opt/monorail:ro
 
   taskgraph:
-    image: rackhd/on-taskgraph
+    image: rackhd/on-taskgraph:2.0.0
     depends_on:
       - dhcp
       - mongo
-      - monorail
+      - http
       - rabbitmq
       - syslog
     volumes:
       - config:/opt/monorail:ro
 
   tftp:
-    image: rackhd/on-tftp
+    image: rackhd/on-tftp:2.0.0
     depends_on:
       - files
       - mongo
-      - monorail
+      - http
       - rabbitmq
       - syslog
     network_mode: "host"
     privileged: true
     volumes:
-      - data/files:/RackHD/on-tftp/static/tftp
+      - ./data/files:/RackHD/on-tftp/static/tftp
       - config:/opt/monorail:ro

@@ -33,8 +33,9 @@ services:
     environment:
       - DHCP_SUBNET=${DHCP_SUBNET}
       - DHCP_NETMASK=${DHCP_NETMASK}
-      - DHCP_RANGE_LOW=${DHCP_RANGE_LOW}
-      - DHCP_RANGE_HIGH=${DHCP_RANGE_HIGH}
+      - DHCP_RANGE=${DHCP_RANGE}
+      - DHCP_DNS_SERVERS=${DHCP_DNS_SERVERS}
+      - DHCP_ROUTERS=${DHCP_ROUTERS}
       - DHCP_INTERFACE=${DHCP_INTERFACE}
     network_mode: "host"
     privileged: true

@@ -9,7 +9,14 @@ max-lease-time 7200;
 ignore-client-uids true;
 deny duplicates;
 
+{{ if .Env.DHCP_DNS_SERVERS }}
+option domain-name-servers {{ .Env.DHCP_DNS_SERVERS }};
+{{ end }}
+
 subnet {{ .Env.DHCP_SUBNET }} netmask {{ .Env.DHCP_NETMASK }} {
-  range {{ .Env.DHCP_RANGE_LOW }} {{ .Env.DHCP_RANGE_HIGH }};
+  range {{ .Env.DHCP_RANGE }};
+  {{ if .Env.DHCP_ROUTERS }}
+  option routers {{ .Env.DHCP_ROUTERS }};
+  {{ end }}
   option vendor-class-identifier "PXEClient";
 }

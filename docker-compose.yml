@@ -66,6 +66,7 @@ services:
       - AMQP_PASSWORD=${RABBIT_PASSWORD}
       - DHCP_NETMASK=${DHCP_NETMASK}
     volumes:
+      - ./data/templates:/RackHD/on-http/data
       - ./data/files/common:/RackHD/on-http/static/http/common
       - config:/opt/monorail
 

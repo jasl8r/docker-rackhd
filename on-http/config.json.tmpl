@@ -2,6 +2,7 @@
     "amqp": "amqp://{{ .Env.AMQP_USERNAME }}:{{ .Env.AMQP_PASSWORD }}@{{ default .Env.AMQP_HOST .Env.RACKHD_HOST }}",
     "apiServerAddress": "{{ default .Env.API_HOST .Env.RACKHD_HOST }}",
     "apiServerPort": {{ default .Env.API_PORT "9080" }},
+    "arpCacheEnabled": true,
     "authPasswordHash": "{{ .Env.RACKHD_PASSWORD_HASH }}",
     "authPasswordSalt": "{{ .Env.RACKHD_PASSWORD_SALT }}",
     "authTokenExpireIn": {{ default .Env.RACKHD_TOKEN_EXPIRES "86400" }},
@@ -13,6 +14,9 @@
     "dhcpProxyBindAddress": "{{ default .Env.DHCP_PROXY_ADDRESS .Env.RACKHD_HOST }}",
     "dhcpProxyBindPort": 4011,
     "dhcpSubnetMask": "{{ default .Env.DHCP_NETMASK .Env.DHCP_ENV_DHCP_NETMASK }}",
+    "fileServerAddress": "0.0.0.0",
+    "fileServerPort": 9080,
+    "fileServerPath": "/",
     "httpDocsRoot": "./build/apidoc",
     "httpEndpoints": [
       {
@@ -32,13 +36,6 @@
           "routers": "southbound-api-router"
       }
     ],
-    "taskGraphEndpoint": {
-        "address": "0.0.0.0",
-        "port": 9030
-    },
-    "fileServerAddress": "0.0.0.0",
-    "fileServerPort": 9080,
-    "fileServerPath": "/",
     "httpFileServiceRoot": "./static/files",
     "httpFileServiceType": "FileSystem",
     "httpProxies": {{ default .Env.RACKHD_PROXIES "[]" }},
@@ -49,6 +46,10 @@
     "statsd": "127.0.0.1:8125",
     "syslogBindAddress": "0.0.0.0",
     "syslogBindPort": 514,
+    "taskGraphEndpoint": {
+        "address": "0.0.0.0",
+        "port": 9030
+    },
     "tftpBindAddress": "{{ default .Env.TFTP_HOST .Env.RACKHD_HOST }}",
     "tftpBindPort": 69,
     "tftpRoot": "./static/tftp",

@@ -1,4 +1,4 @@
-FROM rackhd/on-http:2.0.0
+FROM rackhd/on-http:2.23.0
 MAINTAINER jasl8r@alum.wpi.edu
 
 ENV DOCKERIZE_VERSION=0.3.0

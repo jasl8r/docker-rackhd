@@ -2,8 +2,12 @@
     "amqp": "amqp://{{ .Env.AMQP_USERNAME }}:{{ .Env.AMQP_PASSWORD }}@{{ default .Env.AMQP_HOST .Env.RACKHD_HOST }}",
     "apiServerAddress": "{{ default .Env.API_HOST .Env.RACKHD_HOST }}",
     "apiServerPort": {{ default .Env.API_PORT "9080" }},
-    "authTokenExpireIn": 86400,
-    "authTokenSecret": "{{ .Env.RACKHD_SECRET }}",
+    "authPasswordHash": "{{ .Env.RACKHD_PASSWORD_HASH }}",
+    "authPasswordSalt": "{{ .Env.RACKHD_PASSWORD_SALT }}",
+    "authTokenExpireIn": {{ default .Env.RACKHD_TOKEN_EXPIRES "86400" }},
+    "authTokenSecret": "{{ .Env.RACKHD_TOKEN_SECRET }}",
+    "authUsername": "{{ default .Env.RACKHD_USERNAME "admin" }}",
+    "autoCreateObm": "{{ default .Env.RACKHD_CREATE_OBM "true" }}",
     "dhcpLeasesPath": "/var/lib/dhcp/dhcpd.leases",
     "dhcpGateway": "{{ default .Env.DHCP_GATEWAY .Env.RACKHD_HOST }}",
     "dhcpProxyBindAddress": "{{ default .Env.DHCP_PROXY_ADDRESS .Env.RACKHD_HOST }}",
@@ -28,6 +32,13 @@
           "routers": "southbound-api-router"
       }
     ],
+    "taskGraphEndpoint": {
+        "address": "0.0.0.0",
+        "port": 9030
+    },
+    "fileServerAddress": "0.0.0.0",
+    "fileServerPort": 9080,
+    "fileServerPath": "/",
     "httpFileServiceRoot": "./static/files",
     "httpFileServiceType": "FileSystem",
     "httpProxies": {{ default .Env.RACKHD_PROXIES "[]" }},
